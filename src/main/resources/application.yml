@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    database: media
+    url: jdbc:postgresql://localhost:5432/media
+    username: postgres
+    password: postgres
+
+  jpa.properties:
+    hibernate:
+      temp.use_jdbc_metadata_defaults: false
+      show_sql: true
+      use_sql_comments: true
+      format_sql: true
+#      default_schema: public
