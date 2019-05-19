@@ -2,9 +2,9 @@ version: '3'
 services:
   db:
     image: postgres
-#    volumes:
+    volumes:
 #      - db-data:/var/lib/postgresql/data
-#      - ./postgres/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./postgres/schema.sql:/docker-entrypoint-initdb.d/schema.sql
 #      - ./postgres/dump.sql:/dump.sql
     ports:
       - "5432:5432"
