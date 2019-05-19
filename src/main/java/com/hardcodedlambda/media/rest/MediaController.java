@@ -2,7 +2,7 @@ package com.hardcodedlambda.media.rest;
 
 import com.hardcodedlambda.media.model.Media;
 import com.hardcodedlambda.media.repository.MediaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +10,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/media")
+@AllArgsConstructor
 public class MediaController {
 
-    @Autowired
     private MediaRepository mediaRepository;
 
     @PostMapping("/")
