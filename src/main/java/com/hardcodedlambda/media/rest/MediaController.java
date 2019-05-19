@@ -4,10 +4,7 @@ import com.hardcodedlambda.media.model.Media;
 import com.hardcodedlambda.media.repository.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,13 +16,27 @@ public class MediaController {
     private MediaRepository mediaRepository;
 
     @PostMapping("/")
-    public ResponseEntity create() {
-        Media media = new Media();
-        media.setTitle("title");
+    public ResponseEntity<Media> create(Media receivedMedia) {
+        Media persistedMedia = mediaRepository.save(receivedMedia);
+        return ResponseEntity.ok(persistedMedia);
+    }
 
-        mediaRepository.save(media);
+    @GetMapping("/{id}")
+    public ResponseEntity<Media> read(@PathVariable long id) {
+        Media retrievedMedia = mediaRepository.getOne(id);
+        return ResponseEntity.ok(retrievedMedia);
+    }
 
-        return ResponseEntity.ok().build();
+    @PutMapping("/")
+    public ResponseEntity<Media> update(Media receivedMedia) {
+        Media persistedMedia = mediaRepository.save(receivedMedia);
+        return ResponseEntity.ok(persistedMedia);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Media> delete(@PathVariable long id) {
+        mediaRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/")
