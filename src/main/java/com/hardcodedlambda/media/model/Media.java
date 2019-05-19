@@ -1,32 +1,37 @@
 package com.hardcodedlambda.media.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.ZonedDateTime;
 
 @Entity
+@Getter
+@Setter
 public class Media {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String title;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private Artist artist;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private Publisher publisher;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private Country originatingCountry;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private Genre genre;
 
-    public Long getId() {
-        return id;
-    }
+    private ZonedDateTime publishingDate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private ZonedDateTime createdAt;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    private ZonedDateTime updatedLastAt;
 }

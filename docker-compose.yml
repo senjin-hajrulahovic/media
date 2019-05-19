@@ -2,29 +2,22 @@ version: '3'
 services:
   db:
     image: postgres
-    volumes:
+#    volumes:
 #      - db-data:/var/lib/postgresql/data
-      - ./postgres/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+#      - ./postgres/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+#      - ./postgres/dump.sql:/dump.sql
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_DB: media
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
-#  app:
-#    build:
-#      context: ./
-#      args:
-#        JAR_FILE: target/media-0.0.1-SNAPSHOT.jar
-#
-#    command: mvn clean spring-boot:run
-#    depends_on:
-#      - db
-#    environment:
-#      - PGHOST=db
-#      - PGDTABASE=postgres
-#      - PGUSER=postgres
-
-volumes:
-  db-data:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
