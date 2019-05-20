@@ -26,7 +26,7 @@ SET default_with_oids = false;
 
 CREATE TABLE public.artist (
     id bigint NOT NULL,
-    name character varying(255)
+    name character varying(255) NOT NULL
 );
 
 
@@ -37,7 +37,8 @@ ALTER TABLE public.artist OWNER TO postgres;
 --
 
 CREATE TABLE public.country (
-    id bigint NOT NULL
+    id bigint NOT NULL,
+    name character varying(255) NOT NULL
 );
 
 
@@ -48,9 +49,9 @@ ALTER TABLE public.country OWNER TO postgres;
 --
 
 CREATE TABLE public.genre (
-    id bigint NOT NULL
+    id bigint NOT NULL,
+    name character varying(255) NOT NULL
 );
-
 
 ALTER TABLE public.genre OWNER TO postgres;
 
@@ -74,14 +75,14 @@ ALTER TABLE public.hibernate_sequence OWNER TO postgres;
 
 CREATE TABLE public.media (
     id bigint NOT NULL,
-    created_at timestamp without time zone,
-    publishing_date timestamp without time zone,
-    title character varying(255),
-    updated_last_at timestamp without time zone,
-    artist_id bigint,
-    genre_id bigint,
-    originating_country_id bigint,
-    publisher_id bigint
+    created_at timestamp without time zone NOT NULL,
+    publishing_date timestamp without time zone NOT NULL,
+    title character varying(255) NOT NULL,
+    updated_last_at timestamp without time zone NOT NULL,
+    artist_id bigint NOT NULL,
+    genre_id bigint NOT NULL,
+    originating_country_id bigint NOT NULL,
+    publisher_id bigint NOT NULL
 );
 
 
@@ -93,7 +94,7 @@ ALTER TABLE public.media OWNER TO postgres;
 
 CREATE TABLE public.publisher (
     id bigint NOT NULL,
-    name character varying(255)
+    name character varying(255) NOT NULL
 );
 
 
