@@ -1,6 +1,7 @@
-package com.hardcodedlambda.media;
+package com.hardcodedlambda.media.service;
 
 import com.hardcodedlambda.media.model.Media;
+import com.hardcodedlambda.media.model.MediaSearchQuery;
 import com.hardcodedlambda.media.repository.MediaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @AllArgsConstructor
@@ -52,6 +55,10 @@ public class MediaService {
 
     public List<Media> getAll() {
         return mediaRepository.findAll();
+    }
+
+    public List<Media> search(MediaSearchQuery query) {
+        return mediaRepository.findAll(query.getSpecification());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.hardcodedlambda.media.rest;
 
-import com.hardcodedlambda.media.MediaService;
+import com.hardcodedlambda.media.model.MediaSearchQuery;
+import com.hardcodedlambda.media.service.MediaService;
 import com.hardcodedlambda.media.model.Media;
 import com.hardcodedlambda.media.model.validation.OnCreate;
 import com.hardcodedlambda.media.model.validation.OnUpdate;
@@ -59,5 +60,10 @@ public class MediaController {
     public List<Media> getAll() {
 
         return mediaService.getAll();
+    }
+
+    @PostMapping("/search")
+    public List<Media> search(MediaSearchQuery mediaSearchQuery) {
+        return mediaService.search(mediaSearchQuery);
     }
 }
