@@ -91,7 +91,7 @@ public class MediaServiceTest {
 
         Media nonMatchingMedia = TestDataGenerator.validMediaWithoutId();
         nonMatchingMedia.setTitle(TITLE);
-        nonMatchingMedia.getGenre().setName(EXISTENT_GENRE);
+        nonMatchingMedia.getGenre().setName(NON_EXISTENT_GENRE);
         nonMatchingMedia.setCreatedAt(ZonedDateTime.now());
         nonMatchingMedia.setUpdatedLastAt(ZonedDateTime.now());
         mediaRepository.save(nonMatchingMedia);
