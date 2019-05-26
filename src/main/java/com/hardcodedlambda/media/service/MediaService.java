@@ -1,7 +1,10 @@
 package com.hardcodedlambda.media.service;
 
 import com.hardcodedlambda.media.model.Media;
+import com.hardcodedlambda.media.model.MediaAssignment;
+import com.hardcodedlambda.media.model.MediaAssignmentCreationRequest;
 import com.hardcodedlambda.media.model.MediaSearchQuery;
+import com.hardcodedlambda.media.repository.MediaAssignmentRepository;
 import com.hardcodedlambda.media.repository.MediaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.data.jpa.domain.Specification.where;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +21,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 public class MediaService {
 
     private MediaRepository mediaRepository;
+    private MediaAssignmentRepository mediaAssignmentRepository;
 
     public Media create(Media receivedMedia) {
         receivedMedia.setCreatedAt(ZonedDateTime.now());
@@ -61,4 +64,19 @@ public class MediaService {
         return mediaRepository.findAll(query.getSpecification());
     }
 
+    public List<MediaAssignment> createAssignments(MediaAssignmentCreationRequest request) {
+
+        return request.getMediaAssignmentList().stream()
+                .peek(mediaAssignment -> mediaAssignment.setExpiresAt(request.getExpiresAt()))
+                .map(mediaAssignmentRepository::save)
+                .collect(Collectors.toList());
+    }
+
+    public List<MediaAssignment> getAllMediaAssignments() {
+        return mediaAssignmentRepository.findAll();
+    }
+
+    public List<MediaAssignment> getAllExpiredMediaAssignments(ZonedDateTime zonedDateTime) {
+        return mediaAssignmentRepository.findAll((root, query, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("expiresAt"), zonedDateTime));
+    }
 }

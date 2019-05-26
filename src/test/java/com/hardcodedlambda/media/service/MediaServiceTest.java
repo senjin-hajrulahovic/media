@@ -1,8 +1,9 @@
 package com.hardcodedlambda.media.service;
 
-import com.hardcodedlambda.media.model.Media;
-import com.hardcodedlambda.media.model.MediaSearchQuery;
+import com.hardcodedlambda.media.model.*;
+import com.hardcodedlambda.media.repository.MediaAssignmentRepository;
 import com.hardcodedlambda.media.repository.MediaRepository;
+import com.hardcodedlambda.media.repository.UserRepository;
 import com.hardcodedlambda.media.util.TestDataGenerator;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,6 +17,7 @@ import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -31,6 +33,12 @@ public class MediaServiceTest {
 
     @Autowired
     private MediaRepository mediaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private MediaAssignmentRepository mediaAssignmentRepository;
 
     @Autowired
     private MediaService mediaService;
@@ -103,9 +111,84 @@ public class MediaServiceTest {
         assertEquals(TITLE, searchResult.get(0).getTitle());
     }
 
+    @Test
+    public void shouldCreateMediaAssignments() {
+
+        Media media = TestDataGenerator.validMediaWithoutId();
+        Media persistedMedia = mediaRepository.save(media);
+
+        Subscriber subscriber = Subscriber.builder().name("subscriber").build();
+        Subscriber persistedSubscriber = userRepository.save(subscriber);
+
+        MediaAssignmentId mediaAssignmentId = MediaAssignmentId.builder()
+                .media(Media.builder().id(persistedMedia.getId()).build())
+                .subscriber(Subscriber.builder().id(persistedSubscriber.getId()).build())
+                .build();
+
+        MediaAssignment mediaAssignment = MediaAssignment.builder()
+                .id(mediaAssignmentId)
+                .expiresAt(ZonedDateTime.now())
+                .build();
+
+        ZonedDateTime now = ZonedDateTime.now();
+
+        MediaAssignmentCreationRequest request = MediaAssignmentCreationRequest.builder()
+                .mediaAssignmentList(Collections.singletonList(mediaAssignment))
+                .expiresAt(now)
+                .build();
+
+        mediaService.createAssignments(request);
+
+        List<MediaAssignment> persistedAssignments = mediaService.getAllMediaAssignments();
+
+        assertEquals(1, persistedAssignments.size());
+        assertEquals(persistedAssignments.get(0).getId().getMedia().getId(), persistedMedia.getId());
+        assertEquals(persistedAssignments.get(0).getId().getSubscriber().getId(), persistedSubscriber.getId());
+    }
+
+    @Test
+    public void shouldReturnOnlyExpiredAssignments() {
+        Media media = TestDataGenerator.validMediaWithoutId();
+        Media persistedMedia = mediaRepository.save(media);
+
+        Subscriber subscriber = Subscriber.builder().name("subscriber").build();
+        Subscriber persistedSubscriber = userRepository.save(subscriber);
+
+        MediaAssignmentId mediaAssignmentId = MediaAssignmentId.builder()
+                .media(Media.builder().id(persistedMedia.getId()).build())
+                .subscriber(Subscriber.builder().id(persistedSubscriber.getId()).build())
+                .build();
+
+        MediaAssignment mediaAssignment = MediaAssignment.builder()
+                .id(mediaAssignmentId)
+                .expiresAt(ZonedDateTime.now())
+                .build();
+
+        ZonedDateTime now = ZonedDateTime.now();
+
+        MediaAssignmentCreationRequest request = MediaAssignmentCreationRequest.builder()
+                .mediaAssignmentList(Collections.singletonList(mediaAssignment))
+                .expiresAt(now)
+                .build();
+
+        mediaService.createAssignments(request);
+
+        List<MediaAssignment> queryResultForTomorrow = mediaService.getAllExpiredMediaAssignments(now.plusDays(1));
+
+        assertEquals(1, queryResultForTomorrow.size());
+        assertEquals(queryResultForTomorrow.get(0).getId().getMedia().getId(), persistedMedia.getId());
+        assertEquals(queryResultForTomorrow.get(0).getId().getSubscriber().getId(), persistedSubscriber.getId());
+
+        List<MediaAssignment> queryResultForYesterday = mediaService.getAllExpiredMediaAssignments(now.minusDays(1));
+
+        assertTrue(queryResultForYesterday.isEmpty());
+    }
+
     @After
     public void cleanup() {
+        mediaAssignmentRepository.deleteAll();
         mediaRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @AfterClass

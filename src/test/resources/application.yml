@@ -7,7 +7,7 @@ spring:
   jpa.properties:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQLDialect
-      #      hbm2ddl.auto: create-drop
+      hbm2ddl.auto: create-drop
       #      default_schema: media
       temp.use_jdbc_metadata_defaults: false
       show_sql: true
