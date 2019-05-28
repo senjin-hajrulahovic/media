@@ -1,8 +1,15 @@
 spring:
   datasource:
-    url: jdbc:postgresql://db:5432/media
+    url: jdbc:postgresql://0.0.0.0:5432/media
     username: postgres
     password: postgres
+    hikari:
+      leakDetectionThreshold: 10002
+      maximumPoolSize: 32
+      maxLifetime: 200002
+      #      auto-commit: true
+      #      minimumIdle: 3
+#      connection-test-query: SELECT 2
 
   jpa.properties:
     hibernate:

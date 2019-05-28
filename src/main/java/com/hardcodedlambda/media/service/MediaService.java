@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -60,10 +61,12 @@ public class MediaService {
         return mediaRepository.findAll();
     }
 
+    @Transactional
     public List<Media> search(MediaSearchQuery query) {
         return mediaRepository.findAll(query.getSpecification());
     }
 
+    @Transactional
     public List<MediaAssignment> createAssignments(MediaAssignmentCreationRequest request) {
 
         return request.getMediaAssignmentList().stream()

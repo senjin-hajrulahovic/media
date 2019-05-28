@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hardcodedlambda.media.model.Media;
 import com.hardcodedlambda.media.repository.MediaRepository;
 import com.hardcodedlambda.media.util.TestDataGenerator;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import com.zaxxer.hikari.HikariDataSource;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import javax.sql.DataSource;
+import javax.transaction.Transactional;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class MediaControllerTest {
 
     @Autowired
@@ -38,16 +40,23 @@ public class MediaControllerTest {
     @Autowired
     private MediaRepository mediaRepository;
 
-    private static JdbcDatabaseContainer postgresContainer = new PostgreSQLContainer()
+    @Autowired
+    private HikariDataSource dataSource;
+
+    private static JdbcDatabaseContainer postgresContainer = (JdbcDatabaseContainer)(new PostgreSQLContainer("postgres:11.1")
             .withDatabaseName("media")
             .withUsername("postgres")
-            .withPassword("postgres")
-            .withInitScript("postgres/schema.sql");
+            .withPassword("postgres"))
+            .withStartupTimeout(Duration.ofSeconds(10000));
+//            .withInitScript("postgres/schema.sql");
 
     @BeforeClass
     public static void init() {
         postgresContainer.start();
+
         System.setProperty("spring.datasource.url", postgresContainer.getJdbcUrl());
+//        System.setProperty("spring.datasource.hikari.maxLifetime", "10");
+//        System.setProperty("spring.datasource.hikari.minimumIdle", "10");
     }
 
     // media creation
@@ -166,8 +175,11 @@ public class MediaControllerTest {
     }
 
     @After
+    @Transactional
     public void cleanup() {
         mediaRepository.deleteAll();
+
+//        dataSource.close();
     }
 
     @AfterClass

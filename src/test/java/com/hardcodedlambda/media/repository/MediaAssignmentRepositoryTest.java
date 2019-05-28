@@ -5,25 +5,26 @@ import com.hardcodedlambda.media.model.MediaAssignment;
 import com.hardcodedlambda.media.model.MediaAssignmentId;
 import com.hardcodedlambda.media.model.Subscriber;
 import com.hardcodedlambda.media.util.TestDataGenerator;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import javax.transaction.Transactional;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+//@Ignore
 public class MediaAssignmentRepositoryTest {
 
     @Autowired
@@ -35,19 +36,23 @@ public class MediaAssignmentRepositoryTest {
     @Autowired
     private MediaAssignmentRepository mediaAssignmentRepository;
 
-    private static JdbcDatabaseContainer postgresContainer = new PostgreSQLContainer()
+    private static JdbcDatabaseContainer postgresContainer = (JdbcDatabaseContainer)(new PostgreSQLContainer("postgres:11.1")
             .withDatabaseName("media")
             .withUsername("postgres")
-            .withPassword("postgres");
+            .withPassword("postgres"))
+            .withStartupTimeout(Duration.ofSeconds(10000));
 //            .withInitScript("postgres/schema.sql");
 
     @BeforeClass
     public static void init() {
         postgresContainer.start();
         System.setProperty("spring.datasource.url", postgresContainer.getJdbcUrl());
+//        System.setProperty("spring.datasource.hikari.maxLifetime", "10");
+//        System.setProperty("spring.datasource.hikari.minimumIdle", "10");
     }
 
     @Test(expected = DataIntegrityViolationException.class)
+//    @Transactional
     public void shouldThrowExceptionIfMediaOrUserDoesNotExist() {
 
         MediaAssignmentId mediaAssignmentId = MediaAssignmentId.builder()
@@ -61,9 +66,12 @@ public class MediaAssignmentRepositoryTest {
                 .build();
 
         mediaAssignmentRepository.save(mediaAssignment);
+
     }
 
     @Test
+    @Transactional
+
     public void shouldPersistAssignmentIfMediaAndUserDoExist() {
         Media media = TestDataGenerator.validMediaWithoutId();
         Media persistedMedia = mediaRepository.save(media);
@@ -90,6 +98,8 @@ public class MediaAssignmentRepositoryTest {
     }
 
     @Test
+    @Transactional
+
     public void shouldPersistAssignmentIfOnlyMediaAndSubscriberIdsArePassedAndMediaAnUserDoExist() {
         Media media = TestDataGenerator.validMediaWithoutId();
         Media persistedMedia = mediaRepository.save(media);
@@ -115,7 +125,10 @@ public class MediaAssignmentRepositoryTest {
         assertEquals(persistedSubscriber.getId(), result.getId().getSubscriber().getId());
     }
 
+//    @Transactional
+
     @After
+    @Transactional
     public void cleanup() {
         mediaAssignmentRepository.deleteAll();
         mediaRepository.deleteAll();
