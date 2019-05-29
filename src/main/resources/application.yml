@@ -6,9 +6,8 @@ spring:
     url: jdbc:postgresql://0.0.0.0:5432/media
     username: postgres
     password: postgres
-    hikari:
-      leakDetectionThreshold: 10001
 #    hikari:
+#      leakDetectionThreshold: 10001
 #      minimumIdle: 3
 #      maximumPoolSize: 10
 #      maxLifetime: 2000
