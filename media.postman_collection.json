@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "423004c8-56c1-4c60-9523-70b75e2b52e1",
+		"name": "media",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create media",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJzazV3T3E1NVB5Z1ZGc2ZQcnQ0WWhTelVwR2t6MFZ1cG5WX3R5aXNwM0M4In0.eyJqdGkiOiJjMDM3YjZkMS04NDVmLTRlOWYtOGVhOS0yMjRjNDQ5ODkyNzQiLCJleHAiOjE1NTkxNzA2MzUsIm5iZiI6MCwiaWF0IjoxNTU5MTcwMzM1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWVkaWFfcmVhbG0iLCJhdWQiOlsicmVzdF9tZWRpYV9jbGllbnRfaWQiLCJhY2NvdW50Il0sInN1YiI6ImJkN2MwYWE0LTYwZmItNGZkYy1iYzc0LTE0MGViZDhmNTRlNyIsInR5cCI6IkJlYXJlciIsImF6cCI6InB1YmxpY19tZWRpYV9jbGllbnRfaWQiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI0MmU4MThhMC1kY2E5LTRlNDItYTI0Yy0yNGZlMjc4ZjMzMzAiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCJdLCJyZXNvdXJjZV9hY2Nlc3MiOnsicmVzdF9tZWRpYV9jbGllbnRfaWQiOnsicm9sZXMiOlsibWVkaWFfdXNlciJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJtZWRpYV91c2VyIn0.Xg-CbcA09pvheasnWC-ueTdG-z1NovN8dH0f-sW5XQPIDZvKajkb6BZ_TUJ3Eep-ZgjYAhAkP5QtvhFTZPxc-kxfb8aWf7tL42qD4IKbOMu8FzPncqk6ZLQVMyeUk3W0RIg0RDdtJe7NsCUpjndGoLDtH1_1lhMq1a1N-0xuu7NvXXImistUaMzabMae302Sx7sQjCzfJ-Tdb7qYLZK3_SJkLhVnWzxvRzhSLmjfa2WD5tDrk7jVVRGWX61f3cullq0_cfJXcovXhc8w38JWN0ebs8TNlBb9dNF_rBf-wHoRUl4mDdNRgrTAlqJrRTb7ojstBTq8FWPwR2KKhZjHzA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"title\",\n\t\"artist\": {\"name\": \"artist\"},\n\t\"publisher\": {\"name\": \"publisher\"},\n\t\"originatingCountry\": {\"name\": \"originatingCountry\"},\n\t\"genre\": {\"name\": \"genre\"},\n\t\"publishingDate\": \"2018-12-04T18:47:38.927Z\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/media/",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"media",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get media",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJR0NsQ1YyalJoelF0TmhLWVpJNlo0MFBacGJ5S1E0QnRlblJSLUhDRjg0In0.eyJqdGkiOiJlMjVlMWU2Yy00YWMwLTRkMzgtOWNlZS04MmFmNDg5NDQxN2QiLCJleHAiOjE1NTkxNjY4NzcsIm5iZiI6MCwiaWF0IjoxNTU5MTY2NTc3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWVkaWFfcmVhbG0iLCJhdWQiOlsicmVzdF9tZWRpYV9jbGllbnRfaWQiLCJhY2NvdW50Il0sInN1YiI6ImI2NDQ4N2I4LTQ0NDEtNDIxYy05YmI2LTgzOWJjMmE5NjFkZSIsInR5cCI6IkJlYXJlciIsImF6cCI6InB1YmxpY19tZWRpYV9jbGllbnRfaWQiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiJkODVlZjYwYi1mNjYwLTQ1YzQtOTdjMS0wMTE3NTJhZWIwYmEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZXN0X21lZGlhX2NsaWVudF9pZCI6eyJyb2xlcyI6WyJtZWRpYV91c2VyIl19LCJwdWJsaWNfbWVkaWFfY2xpZW50X2lkIjp7InJvbGVzIjpbIm1lZGlhX3VzZXIiXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoibWVkaWFfdXNlciJ9.H8UAb9LCd4jEm0_WsRuEK1RGsrIq1a-bHs2e5gYt2I7XA6WApfxrrTk08fvlCsax3eZ6R_bxjpKw49m0Mfepf9RRuWfsyZQSPTiuc-aGX9CJk9XteiAOcTow_ZVMoM5ajb7iWc19O0Csoeptd_0_L1kILluQX0aDCxD1Irtc5e8SX1vALMcrM7HXVNUlXzBSrODeIBzVSknl6YBc0AeXN1kLJTt3AZiytFviPFgt5lUOAkPHezIR5i-AgR62K418PU5pXzc-Q_nAwWh6bewJGLnrIoWabAB06W5va2hB7aLKZ0NGDPveodRhCNUfu-u6ks2GotM6ZmyTXD3gSCu2Mg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8081/media/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"media",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acquire token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "public_media_client_id",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "media_user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "media_user",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/realms/media_realm/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"realms",
+						"media_realm",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
