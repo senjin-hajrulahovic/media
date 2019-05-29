@@ -21,3 +21,15 @@ services:
 #      - db
 #    ports:
 #      - "8080:8080"
+
+  auth:
+    image: jboss/keycloak
+    volumes:
+      - ./keycloak/media_realm.json:/tmp/media_realm.json
+    ports:
+      - 8080:8080
+      - 9990:9990
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /tmp/media_realm.json
