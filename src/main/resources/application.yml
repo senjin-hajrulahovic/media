@@ -34,5 +34,4 @@ keycloak:
   auth-server-url: http://localhost:8080/auth
   ssl-required: external
   resource: rest_media_client_id
-#  principal-attribute: preferred_username
   use-resource-role-mappings: true
