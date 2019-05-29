@@ -31,8 +31,8 @@ spring:
 keycloak:
   realm: media_realm
   bearer-only: true
-  auth-server-url: http://localhost:9001/auth
-#  ssl-required: external
+  auth-server-url: http://localhost:8080/auth
+  ssl-required: external
   resource: rest_media_client_id
 #  principal-attribute: preferred_username
-
+  use-resource-role-mappings: true
