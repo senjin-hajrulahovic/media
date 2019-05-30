@@ -3,7 +3,7 @@ server.port: 8081
 spring:
   main.allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:postgresql://0.0.0.0:5432/media
+    url: jdbc:postgresql://localhost:5432/media
     username: postgres
     password: postgres
 
