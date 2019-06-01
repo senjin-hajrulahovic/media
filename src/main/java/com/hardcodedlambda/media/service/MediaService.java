@@ -5,6 +5,7 @@ import com.hardcodedlambda.media.model.MediaAssignment;
 import com.hardcodedlambda.media.model.MediaAssignmentCreationRequest;
 import com.hardcodedlambda.media.model.MediaSearchQuery;
 import com.hardcodedlambda.media.repository.MediaAssignmentRepository;
+import com.hardcodedlambda.media.elasticsearch.MediaElasticSearchRepository;
 import com.hardcodedlambda.media.repository.MediaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -23,6 +26,7 @@ public class MediaService {
 
     private MediaRepository mediaRepository;
     private MediaAssignmentRepository mediaAssignmentRepository;
+    private MediaElasticSearchRepository mediaElasticSearchRepository;
 
     public Media create(Media receivedMedia) {
         receivedMedia.setCreatedAt(ZonedDateTime.now());
@@ -81,5 +85,9 @@ public class MediaService {
 
     public List<MediaAssignment> getAllExpiredMediaAssignments(ZonedDateTime zonedDateTime) {
         return mediaAssignmentRepository.findAll((root, query, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("expiresAt"), zonedDateTime));
+    }
+
+    public Iterable<Media> fullTextSearch(String term) {
+        return   mediaElasticSearchRepository.search(queryStringQuery(term));
     }
 }

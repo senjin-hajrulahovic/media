@@ -51,3 +51,5 @@ services:
     image: elasticsearch:5.4
     ports:
       - 9200:9200
+    environment:
+      cluster.name: media

@@ -66,4 +66,9 @@ public class MediaController {
     public List<Media> search(MediaSearchQuery mediaSearchQuery) {
         return mediaService.search(mediaSearchQuery);
     }
+
+    @GetMapping("/search/{term}")
+    public Iterable<Media> search(@PathVariable String term) {
+        return mediaService.fullTextSearch(term);
+    }
 }

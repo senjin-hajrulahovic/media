@@ -28,3 +28,8 @@ keycloak:
   ssl-required: external
   resource: rest_media_client_id
   use-resource-role-mappings: true
+
+elasticsearch:
+  host: elasticsearch
+  port: 9200
+  cluster-name: media

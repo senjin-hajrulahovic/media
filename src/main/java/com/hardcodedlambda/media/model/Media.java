@@ -3,6 +3,7 @@ package com.hardcodedlambda.media.model;
 import com.hardcodedlambda.media.model.validation.OnCreate;
 import com.hardcodedlambda.media.model.validation.OnUpdate;
 import lombok.*;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Null;
 import java.time.ZonedDateTime;
 
 @Entity
+@Document(indexName = "media", type = "media")
 @Getter
 @Setter
 @Builder
