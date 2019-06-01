@@ -13,7 +13,7 @@ import javax.validation.constraints.Null;
 import java.time.ZonedDateTime;
 
 @Entity
-@Document(indexName = "media", type = "media")
+//@Document(indexName = "media", type = "media")
 @Getter
 @Setter
 @Builder

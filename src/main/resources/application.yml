@@ -30,6 +30,6 @@ keycloak:
   use-resource-role-mappings: true
 
 elasticsearch:
-  host: elasticsearch
+  host: localhost
   port: 9200
   cluster-name: media

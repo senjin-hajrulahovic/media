@@ -1,5 +1,6 @@
 package com.hardcodedlambda.media.rest;
 
+import com.hardcodedlambda.media.elasticsearch.MediaDocument;
 import com.hardcodedlambda.media.model.MediaSearchQuery;
 import com.hardcodedlambda.media.service.MediaService;
 import com.hardcodedlambda.media.model.Media;
@@ -68,7 +69,7 @@ public class MediaController {
     }
 
     @GetMapping("/search/{term}")
-    public Iterable<Media> search(@PathVariable String term) {
+    public Iterable<MediaDocument> search(@PathVariable String term) {
         return mediaService.fullTextSearch(term);
     }
 }
