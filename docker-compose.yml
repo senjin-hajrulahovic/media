@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   db:
     image: postgres
@@ -32,3 +33,21 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
       KEYCLOAK_IMPORT: /tmp/media_realm.json
+
+  logstash:
+    image: logstash:7.1.0
+    command: bash -c "logstash -f /etc/logstash/conf.d/logstash.conf && bin/logstash-plugin install logstash-input-jdbc"
+    volumes:
+      - ./logstash/logstash.conf:/etc/logstash/conf.d/logstash.conf
+      - ./logstash/postgresql-9.1-901-1.jdbc4.jar:/etc/logstash/conf.d/postgresql-9.1-901-1.jdbc4.jar
+
+    depends_on:
+      - db
+      - elasticsearch
+    ports:
+      - 5959:5959
+
+  elasticsearch:
+    image: elasticsearch:5.4
+    ports:
+      - 9200:9200

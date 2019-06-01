@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# WIP still not runnable as a single script
+
 #enter container
 docker exec -it <keycloak-container-id> /bin/bash
 
