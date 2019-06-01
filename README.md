@@ -1,27 +1,28 @@
 # media
 
-repo contains:
-	- application:
-	- docker-compose:
-		keycloak authentication server
-		postgres database
-		elasticsearch
-		logstash for importing data from postgres into elasticsearch		
+repo contains:<br>
+	- application:<br>
+	- docker-compose:<br>
+	- keycloak authentication server<br>
+    - postgres database<br>
+	- elasticsearch<br>
+	- logstash for importing data from postgres into elasticsearch<br>		
 
-prerequisites:
-	docker-compose
-	java
-	mvn
+prerequisites:<br>
+	- docker-compose<br>
+	- java<br>
+	- mvn<br>
 
-setup:
-	run 
-		```docker-compose up --build db auth elasticsearch```
-	when all services are ready start the application:
-		```mvn spring-boot:run```
-	after the app has successfully started start logstash:
-		```docker-compose up logstash```
+setup: <br>
+	run <br> 
+		```docker-compose up --build db auth elasticsearch```<br>
+	when all services are ready start the application:<br>
+		```mvn spring-boot:run```<br>
+	after the app has successfully started start logstash:<br>
+		```docker-compose up logstash```<br>
 
-	prepare keycloak users:
+prepare keycloak users:<br>
+	
 		```bash
 		# enter container
 		docker exec -it <keycloak-container-id> /bin/bash
